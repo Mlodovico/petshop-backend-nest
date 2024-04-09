@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -16,7 +18,9 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ transform: true }))
   create(@Body() createPetDto: CreatePetDto) {
+    console.log(createPetDto);
     return this.petsService.create(createPetDto);
   }
 
