@@ -1,1 +1,7 @@
-export class Admin {}
+export class Admin {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  clearanceLevel: number;
+}
