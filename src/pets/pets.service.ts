@@ -5,6 +5,7 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 @Injectable()
 export class PetsService {
   create(createPetDto: CreatePetDto) {
+    console.log(createPetDto);
     return 'This action adds a new pet';
   }
 
@@ -17,6 +18,7 @@ export class PetsService {
   }
 
   update(id: number, updatePetDto: UpdatePetDto) {
+    console.log(updatePetDto);
     return `This action updates a #${id} pet`;
   }
 
