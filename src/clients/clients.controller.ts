@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  UsePipes,
+} from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -8,6 +18,7 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ transform: true }))
   create(@Body() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
   }
