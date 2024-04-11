@@ -5,7 +5,7 @@ import { hash } from 'bcrypt';
 
 @Injectable()
 export class AdminsService {
-  async create(createAdminDto: CreateAdminDto) {
+  async create(createAdminDto: CreateAdminDto): Promise<string> {
     const { password } = createAdminDto;
 
     const hashedPassword = await hash(password, 10);
