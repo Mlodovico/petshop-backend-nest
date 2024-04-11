@@ -1,13 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class AdminsService {
-  create(createAdminDto: CreateAdminDto) {
-    console.log(createAdminDto);
+  async create(createAdminDto: CreateAdminDto) {
+    const { password } = createAdminDto;
 
-    return 'Admin created with success!';
+    const hashedPassword = await hash(password, 10);
+
+    createAdminDto.password = hashedPassword;
+
+    try {
+      return 'Admin created with success!';
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
   findAll() {
