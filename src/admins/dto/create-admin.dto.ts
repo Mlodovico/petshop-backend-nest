@@ -17,6 +17,10 @@ export class CreateAdminDto {
   email: string;
 
   @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @IsNotEmpty()
   @IsStrongPassword()
   password: string;
 
