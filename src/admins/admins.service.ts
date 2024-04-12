@@ -34,8 +34,17 @@ export class AdminsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async findOne(id: number) {
+    try {
+      const getAdmin = await this.prismaService.admins.findUnique({
+        where: { id },
+      });
+
+      return getAdmin;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
