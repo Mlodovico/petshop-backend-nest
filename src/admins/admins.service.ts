@@ -16,6 +16,7 @@ export class AdminsService {
 
     try {
       await this.prismaService.admins.create({ data: createAdminDto });
+
       return 'Admin created with success!';
     } catch (error) {
       console.log(error);
@@ -26,7 +27,7 @@ export class AdminsService {
   async findAll() {
     try {
       const getAdmins = await this.prismaService.admins.findMany();
-      console.log({ getAdmins });
+
       return getAdmins;
     } catch (error) {
       console.log(error);
@@ -40,19 +41,51 @@ export class AdminsService {
         where: { id },
       });
 
-      return getAdmin;
+      return getAdmin ? getAdmin : 'Admin not found!';
     } catch (error) {
       console.log(error);
       return error;
     }
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    console.log(updateAdminDto);
-    return `This action updates a #${id} admin`;
+  async update(id: number, updateAdminDto: UpdateAdminDto) {
+    try {
+      const selectedAdmin = await this.prismaService.admins.findUnique({
+        where: { id },
+      });
+
+      if (!selectedAdmin) {
+        return 'Admin not found!';
+      }
+
+      this.prismaService.admins.update({
+        where: { id },
+        data: updateAdminDto,
+      });
+
+      return `The admin ${selectedAdmin.name} was updated with success!`;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  async remove(id: number) {
+    try {
+      const selectedAdmin = await this.prismaService.admins.findUnique({
+        where: { id },
+      });
+
+      if (!selectedAdmin) {
+        return 'Admin not found!';
+      }
+
+      await this.prismaService.admins.delete({ where: { id } });
+
+      return `Admin removed with success`;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 }
