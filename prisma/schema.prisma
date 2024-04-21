@@ -40,6 +40,8 @@ model Pet {
   name      String
   breed     String
   birthdata DateTime
+  agr       Int
+  weight    Int
 
   Clients Clients[]
 }
