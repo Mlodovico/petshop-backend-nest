@@ -14,11 +14,32 @@ datasource db {
 }
 
 model Admins {
-  id Int @id @default(autoincrement())
-  name String
-  email String
-  address String
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String
+  address        String
   clearanceLevel Int
-  password String
+  password       String
+  createdAt      DateTime @default(now())
+}
+
+model Clients {
+  id       Int    @id @default(autoincrement())
+  name     String
+  document String
+  email    String
+  address  String
+  pet      Pet    @relation(fields: [petId], references: [id])
+
   createdAt DateTime @default(now())
+  petId     Int
+}
+
+model Pet {
+  id        Int      @id @default(autoincrement())
+  name      String
+  breed     String
+  birthdata DateTime
+
+  Clients Clients[]
 }
