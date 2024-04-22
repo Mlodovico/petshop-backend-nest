@@ -7,8 +7,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ClientsService {
   constructor(private prismaService: PrismaService) {}
   async create(createClientDto: CreateClientDto) {
-    await this.prismaService.clients.create({ data: createClientDto });
-    return 'This action adds a new client';
+    try {
+      console.log(createClientDto);
+      // await this.prismaService.clients.create({ data: createClientDto });
+      return 'This action adds a new client';
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 
   findAll() {
@@ -20,6 +26,7 @@ export class ClientsService {
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
+    console.log(updateClientDto);
     return `This action updates a #${id} client`;
   }
 

@@ -1,4 +1,9 @@
-import { Pet } from 'src/pets/entities/pet.entity';
+interface Pets {
+  name: string;
+  breed: string;
+  birthdate: number;
+  weight: number;
+}
 
 export class Client {
   id: number;
@@ -6,5 +11,5 @@ export class Client {
   email: string;
   address: string;
   plain: string;
-  dogs: Pet[];
+  dogs: Pets[];
 }
