@@ -22,7 +22,7 @@ export class CreateClientDto {
   pet: Array<{
     name: string;
     breed: string;
-    birthdate: number;
+    birthdate: Date;
     weight: number;
   }>;
 }
