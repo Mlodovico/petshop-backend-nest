@@ -12,6 +12,10 @@ export class CreateClientDto {
 
   @IsNotEmpty()
   @IsString()
+  document: string;
+
+  @IsNotEmpty()
+  @IsString()
   address: string;
 
   @IsNotEmpty()

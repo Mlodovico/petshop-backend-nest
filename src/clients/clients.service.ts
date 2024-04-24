@@ -10,6 +10,7 @@ export class ClientsService {
     try {
       console.log(createClientDto);
       // await this.prismaService.clients.create({ data: createClientDto });
+
       return 'This action adds a new client';
     } catch (err) {
       console.log(err);
@@ -17,8 +18,15 @@ export class ClientsService {
     }
   }
 
-  findAll() {
-    return `This action returns all clients`;
+  async findAll() {
+    try {
+      const getClients = await this.prismaService.clients.findMany();
+
+      return getClients;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 
   findOne(id: number) {

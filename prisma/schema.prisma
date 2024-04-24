@@ -29,6 +29,7 @@ model Clients {
   document String
   email    String
   address  String
+  plain    String
   pet      Pet    @relation(fields: [petId], references: [id])
 
   createdAt DateTime @default(now())
