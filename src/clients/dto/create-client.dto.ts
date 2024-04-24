@@ -1,5 +1,12 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
+interface Pet {
+  name: string;
+  breed: string;
+  birthdate: Date;
+  weight: number;
+}
+
 export class CreateClientDto {
   @IsNotEmpty()
   @IsString()
@@ -23,10 +30,5 @@ export class CreateClientDto {
   plain: string;
 
   @IsNotEmpty()
-  pet: Array<{
-    name: string;
-    breed: string;
-    birthdate: Date;
-    weight: number;
-  }>;
+  pet: Pet[];
 }

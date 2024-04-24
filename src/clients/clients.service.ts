@@ -9,7 +9,7 @@ export class ClientsService {
   async create(createClientDto: CreateClientDto) {
     try {
       console.log(createClientDto);
-      // await this.prismaService.clients.create({ data: createClientDto });
+      await this.prismaService.clients.create({ data: createClientDto });
 
       return 'This action adds a new client';
     } catch (err) {
