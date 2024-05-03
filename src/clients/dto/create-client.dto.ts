@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 interface Pet {
   name: string;
@@ -8,27 +14,27 @@ interface Pet {
 }
 
 export class CreateClientDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   name: string;
 
-  @IsNotEmpty()
   @IsString()
-  @IsEmail()
-  email: string;
-
   @IsNotEmpty()
-  @IsString()
   document: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
   address: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   plain: string;
 
-  @IsNotEmpty()
-  pet: Pet[];
+  @IsInt()
+  petId: number;
 }
