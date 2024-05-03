@@ -11,7 +11,7 @@ export class ClientsService {
       console.log(createClientDto);
       await this.prismaService.clients.create({ data: createClientDto });
 
-      return 'This action adds a new client';
+      return `Client ${createClientDto.name} created with success!`;
     } catch (err) {
       console.log(err);
       return err;
