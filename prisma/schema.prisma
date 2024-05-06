@@ -23,26 +23,26 @@ model Admins {
   createdAt      DateTime @default(now())
 }
 
-model Clients {
-  id       Int    @id @default(autoincrement())
+model Client {
+  id       Int      @id @default(autoincrement())
   name     String
   document String
   email    String
   address  String
   plain    String
-  pet      Pet    @relation(fields: [petId], references: [id])
+  pets     Pet[]    // Um cliente pode ter vários pets
 
   createdAt DateTime @default(now())
-  petId     Int
 }
 
 model Pet {
   id        Int      @id @default(autoincrement())
   name      String
   breed     String
-  birthdata DateTime
-  agr       Int
+  birthdate DateTime
+  age       Int
   weight    Int
+  clientId  Int      // Chave estrangeira para relacionar o pet ao cliente
 
-  Clients Clients[]
+  client    Client   @relation(fields: [clientId], references: [id]) // Um pet pertence a um único cliente
 }
