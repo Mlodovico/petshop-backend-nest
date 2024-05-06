@@ -8,8 +8,17 @@ export class ClientsService {
   constructor(private prismaService: PrismaService) {}
   async create(createClientDto: CreateClientDto) {
     try {
-      console.log(createClientDto);
-      await this.prismaService.client.create({ data: createClientDto });
+      const { pets } = createClientDto;
+
+      console.log(pets);
+      // await this.prismaService.client.create({
+      //   data: {
+      //     ...createClientDto,
+      //     pets: {
+      //       create: createClientDto.pets,
+      //     },
+      //   },
+      // });
 
       return `Client ${createClientDto.name} created with success!`;
     } catch (err) {
