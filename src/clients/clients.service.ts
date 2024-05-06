@@ -16,7 +16,7 @@ export class ClientsService {
         },
       });
 
-      if (findClient) {
+      if (findClient.length > 0) {
         throw 'Client already exists!';
       }
 
@@ -62,7 +62,31 @@ export class ClientsService {
     }
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
+  async update(id: number, updateClientDto: UpdateClientDto) {
+    try {
+      const { pets } = updateClientDto;
+
+      const selectedClient = await this.prismaService.client.findUnique({
+        where: { id },
+      });
+
+      if (!selectedClient) {
+        throw 'Client not found!';
+      }
+
+      await this.prismaService.client.update({
+        where: { id },
+        data: {
+          ...updateClientDto,
+          pets: {
+            create: pets,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
     console.log(updateClientDto);
     return `This action updates a #${id} client`;
   }
