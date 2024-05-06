@@ -8,17 +8,14 @@ export class ClientsService {
   constructor(private prismaService: PrismaService) {}
   async create(createClientDto: CreateClientDto) {
     try {
-      const { pets } = createClientDto;
-
-      console.log(pets);
-      // await this.prismaService.client.create({
-      //   data: {
-      //     ...createClientDto,
-      //     pets: {
-      //       create: createClientDto.pets,
-      //     },
-      //   },
-      // });
+      await this.prismaService.client.create({
+        data: {
+          ...createClientDto,
+          pets: {
+            create: createClientDto.pets,
+          },
+        },
+      });
 
       return `Client ${createClientDto.name} created with success!`;
     } catch (err) {
@@ -27,9 +24,11 @@ export class ClientsService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<CreateClientDto[]> {
     try {
       const getClients = await this.prismaService.client.findMany();
+
+      console.log(getClients);
 
       return getClients;
     } catch (err) {

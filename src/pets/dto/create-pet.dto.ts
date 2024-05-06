@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreatePetDto {
   @IsNotEmpty()
@@ -10,7 +10,7 @@ export class CreatePetDto {
   breed: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   birthdate: Date;
 
   @IsNotEmpty()
