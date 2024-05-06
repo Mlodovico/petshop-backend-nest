@@ -6,13 +6,6 @@ import {
   IsString,
 } from 'class-validator';
 
-interface Pet {
-  name: string;
-  breed: string;
-  birthdate: Date;
-  weight: number;
-}
-
 export class CreateClientDto {
   @IsString()
   @IsNotEmpty()

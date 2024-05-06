@@ -9,7 +9,7 @@ export class ClientsService {
   async create(createClientDto: CreateClientDto) {
     try {
       console.log(createClientDto);
-      await this.prismaService.clients.create({ data: createClientDto });
+      await this.prismaService.client.create({ data: createClientDto });
 
       return `Client ${createClientDto.name} created with success!`;
     } catch (err) {
@@ -20,7 +20,7 @@ export class ClientsService {
 
   async findAll() {
     try {
-      const getClients = await this.prismaService.clients.findMany();
+      const getClients = await this.prismaService.client.findMany();
 
       return getClients;
     } catch (err) {
