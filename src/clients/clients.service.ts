@@ -8,6 +8,18 @@ export class ClientsService {
   constructor(private prismaService: PrismaService) {}
   async create(createClientDto: CreateClientDto) {
     try {
+      const { document } = createClientDto;
+
+      const findClient = await this.prismaService.client.findMany({
+        where: {
+          document: document,
+        },
+      });
+
+      if (findClient) {
+        throw 'Client already exists!';
+      }
+
       await this.prismaService.client.create({
         data: {
           ...createClientDto,
@@ -24,7 +36,7 @@ export class ClientsService {
     }
   }
 
-  async findAll(): Promise<CreateClientDto[]> {
+  async findAll() {
     try {
       const getClients = await this.prismaService.client.findMany();
 
