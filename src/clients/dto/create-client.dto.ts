@@ -32,9 +32,8 @@ export class CreateClientDto {
   @IsOptional()
   plain: string;
 
-  @IsNotEmpty()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreatePetDto)
-  pets: CreatePetDto[];
+  pets?: CreatePetDto[];
 }

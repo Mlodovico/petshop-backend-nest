@@ -6,9 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class ClientsService {
   constructor(private prismaService: PrismaService) {}
-  async create(createClientDto: CreateClientDto) {
+  async create(clientData: CreateClientDto) {
     try {
-      const { document } = createClientDto;
+      const { document, pets } = clientData;
 
       const findClient = await this.prismaService.client.findMany({
         where: {
@@ -20,16 +20,24 @@ export class ClientsService {
         throw 'Client already exists!';
       }
 
-      await this.prismaService.client.create({
-        data: {
-          ...createClientDto,
-          pets: {
-            create: createClientDto.pets,
-          },
-        },
+      const createdClient = await this.prismaService.client.create({
+        data: clientData, // Pass client data without pets
       });
 
-      return `Client ${createClientDto.name} created with success!`;
+      if (pets && pets.length > 0) {
+        await Promise.all(
+          pets.map(async (pet) => {
+            await this.prismaService.pet.create({
+              data: {
+                ...pet,
+                clientId: createdClient.id,
+              },
+            });
+          }),
+        );
+      }
+
+      return `Client ${clientData.name} created with success!`;
     } catch (err) {
       console.log(err);
       return err;
