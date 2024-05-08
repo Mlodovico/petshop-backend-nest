@@ -21,7 +21,10 @@ export class ClientsService {
       }
 
       const createdClient = await this.prismaService.client.create({
-        data: clientData, // Pass client data without pets
+        data: {
+          ...clientData,
+          pets: {},
+        },
       });
 
       if (pets && pets.length > 0) {
