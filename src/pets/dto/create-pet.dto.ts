@@ -20,4 +20,8 @@ export class CreatePetDto {
   @IsNotEmpty()
   @IsNumber()
   weight: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  clientId: number;
 }
