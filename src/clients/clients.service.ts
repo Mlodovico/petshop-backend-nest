@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
 
 @Injectable()
 export class ClientsService {
   constructor(private prismaService: PrismaService) {}
-  async create(clientData: CreateClientDto) {
+  async create(clientData: CreateClientDto, petsData: CreatePetDto[]) {
     try {
-      const { document, pets } = clientData;
+      const { document } = clientData;
 
       const findClient = await this.prismaService.client.findMany({
         where: {
@@ -21,15 +22,12 @@ export class ClientsService {
       }
 
       const createdClient = await this.prismaService.client.create({
-        data: {
-          ...clientData,
-          pets: {},
-        },
+        data: clientData,
       });
 
-      if (pets && pets.length > 0) {
+      if (petsData && petsData.length > 0) {
         await Promise.all(
-          pets.map(async (pet) => {
+          petsData.map(async (pet) => {
             await this.prismaService.pet.create({
               data: {
                 ...pet,
@@ -50,8 +48,15 @@ export class ClientsService {
   async findAll() {
     try {
       const getClients = await this.prismaService.client.findMany();
+      const getPets = await this.prismaService.pet.findMany();
 
-      console.log(getClients);
+      const clientsWithPets = getClients.map((client) => {
+        const pets = getPets.filter((pet) => pet.clientId === client.id);
+
+        return pets;
+      });
+
+      console.log(clientsWithPets);
 
       return getClients;
     } catch (err) {
@@ -73,34 +78,7 @@ export class ClientsService {
     }
   }
 
-  async update(id: number, updateClientDto: UpdateClientDto) {
-    try {
-      const { pets } = updateClientDto;
-
-      const selectedClient = await this.prismaService.client.findUnique({
-        where: { id },
-      });
-
-      if (!selectedClient) {
-        throw 'Client not found!';
-      }
-
-      await this.prismaService.client.update({
-        where: { id },
-        data: {
-          ...updateClientDto,
-          pets: {
-            create: pets,
-          },
-        },
-      });
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-    console.log(updateClientDto);
-    return `This action updates a #${id} client`;
-  }
+  async update(id: number, updateClientDto: UpdateClientDto) {}
 
   remove(id: number) {
     return `This action removes a #${id} client`;

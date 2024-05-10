@@ -12,6 +12,7 @@ import {
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
 
 @Controller('clients')
 export class ClientsController {
@@ -19,8 +20,11 @@ export class ClientsController {
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientsService.create(createClientDto);
+  create(
+    @Body() createClientDto: CreateClientDto,
+    @Body() petsData: CreatePetDto[],
+  ) {
+    return this.clientsService.create(createClientDto, petsData);
   }
 
   @Get()

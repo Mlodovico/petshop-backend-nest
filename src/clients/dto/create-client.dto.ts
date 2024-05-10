@@ -1,14 +1,4 @@
-import { Type } from 'class-transformer';
-import {
-  IsArray,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-
-import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateClientDto {
   @IsString()
@@ -31,9 +21,4 @@ export class CreateClientDto {
   @IsString()
   @IsOptional()
   plain: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreatePetDto)
-  pets?: CreatePetDto[];
 }
