@@ -75,8 +75,18 @@ export class ClientsService {
       const getClient = await this.prismaService.client.findUnique({
         where: { id },
       });
+      const getPets = await this.prismaService.pet.findMany({
+        where: { clientId: id },
+      });
 
-      return getClient ? getClient : 'Client not found!';
+      const formattedClientsWithPets = {
+        ...getClient,
+        pets: getPets,
+      };
+
+      return getClient && getPets
+        ? formattedClientsWithPets
+        : 'Client not found!';
     } catch (err) {
       console.log(err);
       throw err;
