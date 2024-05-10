@@ -56,9 +56,14 @@ export class ClientsService {
         return pets;
       });
 
-      console.log(clientsWithPets);
+      const formattedClientsWithPets = getClients.map((client, index) => {
+        return {
+          ...client,
+          pets: clientsWithPets[index],
+        };
+      });
 
-      return getClients;
+      return formattedClientsWithPets;
     } catch (err) {
       console.log(err);
       return err;
