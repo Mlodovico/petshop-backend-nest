@@ -32,14 +32,19 @@ export class ClientsService {
         document: clientData.document,
       };
 
-      await this.prismaService.client.create({
+      const { id } = await this.prismaService.client.create({
         data: formattedClientData,
       });
 
       if (pets && pets.length > 0) {
         await Promise.all(
           pets.map(async (pet) => {
-            await this.petsService.create(pet);
+            const formattedPetValue = {
+              ...pet,
+              clientId: id,
+            };
+
+            await this.petsService.create(formattedPetValue);
           }),
         );
       }

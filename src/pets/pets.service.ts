@@ -10,8 +10,19 @@ export class PetsService {
 
   async create(createPetDto: CreatePetDto) {
     try {
+      const { clientId, ...petData } = createPetDto;
+
+      if (!clientId) {
+        throw new Error('clientId is required to create a pet');
+      }
+
       const createPet = await this.prismaService.pet.create({
-        data: createPetDto,
+        data: {
+          ...petData,
+          client: {
+            connect: { id: clientId },
+          },
+        },
       });
 
       return `Pet ${createPet.name} was created with success!`;
