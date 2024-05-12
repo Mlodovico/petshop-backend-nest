@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
 
 export class CreateClientDto {
   @IsString()
@@ -21,4 +28,7 @@ export class CreateClientDto {
   @IsString()
   @IsOptional()
   plain: string;
+
+  @IsArray()
+  pets: CreatePetDto[];
 }

@@ -2,14 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
+import { PetsService } from 'src/pets/pets.service';
 
 @Injectable()
 export class ClientsService {
-  constructor(private prismaService: PrismaService) {}
-  async create(clientData: CreateClientDto, petsData: CreatePetDto[]) {
+  constructor(
+    private prismaService: PrismaService,
+    private petsService: PetsService,
+  ) {}
+  async create(clientData: CreateClientDto) {
     try {
-      const { document } = clientData;
+      const { document, pets } = clientData;
 
       const findClient = await this.prismaService.client.findMany({
         where: {
@@ -21,19 +24,22 @@ export class ClientsService {
         throw 'Client already exists!';
       }
 
-      const createdClient = await this.prismaService.client.create({
-        data: clientData,
+      const formattedClientData = {
+        name: clientData.name,
+        email: clientData.email,
+        address: clientData.address,
+        plain: clientData.document,
+        document: clientData.document,
+      };
+
+      await this.prismaService.client.create({
+        data: formattedClientData,
       });
 
-      if (petsData && petsData.length > 0) {
+      if (pets && pets.length > 0) {
         await Promise.all(
-          petsData.map(async (pet) => {
-            await this.prismaService.pet.create({
-              data: {
-                ...pet,
-                clientId: createdClient.id,
-              },
-            });
+          pets.map(async (pet) => {
+            await this.petsService.create(pet);
           }),
         );
       }
@@ -93,7 +99,17 @@ export class ClientsService {
     }
   }
 
-  async update(id: number, updateClientDto: UpdateClientDto) {}
+  async update(id: number, updateClientDto: UpdateClientDto) {
+    try {
+      const selectedClient = await this.prismaService.client.findUnique({
+        where: { id },
+      });
+      console.log(selectedClient, updateClientDto);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 
   remove(id: number) {
     return `This action removes a #${id} client`;

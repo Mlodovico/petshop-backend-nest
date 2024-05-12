@@ -14,8 +14,6 @@ export class PetsService {
         data: createPetDto,
       });
 
-      console.log(createPet);
-
       return `Pet ${createPet.name} was created with success!`;
     } catch (err) {
       console.log(err);
