@@ -28,7 +28,7 @@ export class PetsService {
       return `Pet ${createPet.name} was created with success!`;
     } catch (err) {
       console.log(err);
-      return err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 

@@ -19,8 +19,7 @@ export class AdminsService {
 
       return 'Admin created with success!';
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error(`Something went wrong: ${error.message}`);
     }
   }
 
@@ -30,8 +29,7 @@ export class AdminsService {
 
       return getAdmins;
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error(`Something went wrong: ${error.message}`);
     }
   }
 
@@ -43,8 +41,7 @@ export class AdminsService {
 
       return getAdmin ? getAdmin : 'Admin not found!';
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error(`Something went wrong: ${error.message}`);
     }
   }
 
@@ -65,8 +62,7 @@ export class AdminsService {
 
       return `The admin ${selectedAdmin.name} was updated with success!`;
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 
@@ -84,8 +80,7 @@ export class AdminsService {
 
       return `Admin removed with success`;
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error(`Something went wrong: ${error.message}`);
     }
   }
 }

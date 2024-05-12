@@ -51,8 +51,7 @@ export class ClientsService {
 
       return `Client ${clientData.name} created with success!`;
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 
@@ -76,8 +75,7 @@ export class ClientsService {
 
       return formattedClientsWithPets;
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 
@@ -99,8 +97,7 @@ export class ClientsService {
         ? formattedClientsWithPets
         : 'Client not found!';
     } catch (err) {
-      console.log(err);
-      throw err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 
@@ -111,8 +108,7 @@ export class ClientsService {
       });
       console.log(selectedClient, updateClientDto);
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new Error(`Something went wrong: ${err.message}`);
     }
   }
 
