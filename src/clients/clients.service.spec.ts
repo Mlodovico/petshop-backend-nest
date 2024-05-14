@@ -15,10 +15,6 @@ describe('ClientsService', () => {
     prismaService = module.get<PrismaService>(PrismaService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   describe('findOne', () => {
     it('Should return a client with pet', async () => {
       const findUniqueMock = jest
@@ -71,6 +67,56 @@ describe('ClientsService', () => {
       await expect(service.findOne(1)).rejects.toThrowError('Database error');
 
       expect(findUniqueMock).toHaveBeenCalledWith({ where: { id: 1 } });
+    });
+  });
+
+  describe('findAll', () => {
+    it('Should retun formatted clients with their pets', async () => {
+      const clients = [{ id: 1, name: 'John Doe' }];
+      const pets = [{ id: 1, name: 'Fluffy', breed: 'Dog' }];
+
+      const findManyMock = jest
+        .fn()
+        .mockResolvedValueOnce(clients)
+        .mockResolvedValueOnce(pets);
+
+      jest
+        .spyOn(prismaService.client, 'findMany')
+        .mockImplementation(findManyMock);
+      jest
+        .spyOn(prismaService.pet, 'findMany')
+        .mockImplementation(findManyMock);
+
+      const result = await service.findAll();
+
+      expect(result).toEqual([
+        {
+          id: 1,
+          name: 'John Doe',
+          pets: [{ id: 1, name: 'Fluffy', breed: 'Dog' }],
+        },
+      ]);
+
+      expect(findManyMock).toHaveBeenCalledWith();
+      expect(findManyMock).toHaveBeenCalledWith();
+    });
+
+    it('Should throw an error if something goes wrong', async () => {
+      const findManyMock = jest
+        .fn()
+        .mockRejectedValue(new Error('Database error'));
+
+      jest
+        .spyOn(prismaService.client, 'findMany')
+        .mockImplementation(findManyMock);
+      jest
+        .spyOn(prismaService.pet, 'findMany')
+        .mockImplementation(findManyMock);
+
+      await expect(service.findAll()).rejects.toThrowError('Database error');
+
+      expect(findManyMock).toHaveBeenCalledWith();
+      expect(findManyMock).toHaveBeenCalledWith();
     });
   });
 });
