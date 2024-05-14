@@ -45,8 +45,20 @@ export class PetsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pet`;
+  async findOne(id: number) {
+    try {
+      const getPet = await this.prismaService.pet.findUnique({
+        where: { id },
+      });
+
+      if (!getPet) {
+        throw new Error('Pet not found!');
+      }
+
+      return getPet;
+    } catch (err) {
+      throw new Error(`Something went wrong: ${err.message}`);
+    }
   }
 
   update(id: number, updatePetDto: UpdatePetDto) {
