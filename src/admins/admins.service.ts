@@ -73,7 +73,7 @@ export class AdminsService {
       });
 
       if (!selectedAdmin) {
-        return 'Admin not found!';
+        throw new Error('Admin not found!');
       }
 
       await this.prismaService.admins.delete({ where: { id } });

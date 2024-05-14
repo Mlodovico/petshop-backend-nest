@@ -112,7 +112,22 @@ export class ClientsService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  async remove(id: number) {
+    try {
+      const selectedClient = await this.prismaService.client.findUnique({
+        where: { id },
+      });
+
+      console.log(selectedClient);
+
+      if (!selectedClient) {
+        throw new Error('Client not found!');
+      }
+
+      await this.prismaService.client.delete({ where: { id } });
+      return `Client ${selectedClient.name} removed with success`;
+    } catch (err) {
+      throw new Error('Something went wrong: ' + err.message);
+    }
   }
 }
