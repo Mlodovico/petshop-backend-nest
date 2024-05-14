@@ -66,7 +66,20 @@ export class PetsService {
     return `This action updates a #${id} pet`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pet`;
+  async remove(id: number) {
+    try {
+      const selectedPet = await this.prismaService.pet.findUnique({
+        where: { id },
+      });
+
+      if (!selectedPet) {
+        throw new Error('Pet not found!');
+      }
+
+      await this.prismaService.pet.delete({ where: { id } });
+      return `Pet ${selectedPet.name} removed with success`;
+    } catch (err) {
+      throw new Error(`Something went wrong: ${err.message}`);
+    }
   }
 }
