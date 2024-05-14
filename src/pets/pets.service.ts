@@ -61,9 +61,23 @@ export class PetsService {
     }
   }
 
-  update(id: number, updatePetDto: UpdatePetDto) {
-    console.log(updatePetDto);
-    return `This action updates a #${id} pet`;
+  async update(id: number, updatePetDto: UpdatePetDto) {
+    try {
+      const selectedPet = await this.prismaService.pet.findUnique({
+        where: { id },
+      });
+
+      if (!selectedPet) {
+        throw new Error('Pet not found!');
+      }
+
+      await this.prismaService.pet.update({
+        where: { id },
+        data: updatePetDto,
+      });
+    } catch (err) {
+      throw new Error(`Something went wrong: ${err.message}`);
+    }
   }
 
   async remove(id: number) {
