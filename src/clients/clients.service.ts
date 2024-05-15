@@ -106,7 +106,19 @@ export class ClientsService {
       const selectedClient = await this.prismaService.client.findUnique({
         where: { id },
       });
-      console.log(selectedClient, updateClientDto);
+
+      console.log(updateClientDto);
+
+      if (!selectedClient) {
+        throw new Error('Client not found!');
+      }
+
+      await this.prismaService.client.update({
+        where: { id },
+        data: updateClientDto,
+      });
+
+      return `Client ${selectedClient.name} updated with success`;
     } catch (err) {
       throw new Error(`Something went wrong: ${err.message}`);
     }
