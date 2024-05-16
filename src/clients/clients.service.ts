@@ -3,6 +3,7 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PetsService } from 'src/pets/pets.service';
+import { ClientNotFoundException } from './exceptions/client-not-found-exception';
 
 @Injectable()
 export class ClientsService {
@@ -129,14 +130,24 @@ export class ClientsService {
       const selectedClient = await this.prismaService.client.findUnique({
         where: { id },
       });
-
-      console.log(selectedClient);
+      const selectedPetsOfClient = await this.prismaService.pet.findMany({
+        where: { clientId: id },
+      });
 
       if (!selectedClient) {
-        throw new Error('Client not found!');
+        throw new Error("Client doesn't exist!");
+      }
+
+      if (selectedPetsOfClient.length > 0) {
+        Promise.all(
+          selectedPetsOfClient.map(async (pet) => {
+            await this.petsService.remove(pet.id);
+          }),
+        );
       }
 
       await this.prismaService.client.delete({ where: { id } });
+
       return `Client ${selectedClient.name} removed with success`;
     } catch (err) {
       throw new Error('Something went wrong: ' + err.message);
