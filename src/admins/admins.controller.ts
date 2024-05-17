@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('admins')
 export class AdminsController {
@@ -24,6 +26,7 @@ export class AdminsController {
   }
 
   @Get()
+  // @UseGuards(AuthGuard)
   findAll() {
     return this.adminsService.findAll();
   }

@@ -3,7 +3,6 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PetsService } from 'src/pets/pets.service';
-import { ClientNotFoundException } from './exceptions/client-not-found-exception';
 
 @Injectable()
 export class ClientsService {

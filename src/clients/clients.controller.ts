@@ -8,7 +8,6 @@ import {
   Delete,
   ValidationPipe,
   UsePipes,
-  UseFilters,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';

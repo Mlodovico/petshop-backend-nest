@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { CreateAdminDto } from 'src/admins/dto/create-admin.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { LoginAdminDto } from './dto/login-admin.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,11 +31,11 @@ export class AuthService {
     }
   }
 
-  async login(admin: CreateAdminDto) {
+  async login(admin: LoginAdminDto) {
     try {
       const payload = {
-        username: admin.email,
-        id: admin.password,
+        email: admin.email,
+        password: admin.password,
       };
 
       return {
