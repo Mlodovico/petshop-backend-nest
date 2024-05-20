@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { CreateAdminDto } from 'src/admins/dto/create-admin.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginAdminDto } from './dto/login-admin.dto';
 
