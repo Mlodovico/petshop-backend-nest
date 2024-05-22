@@ -11,10 +11,10 @@ import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
+    AuthModule,
     ClientsModule,
     AdminsModule,
     PetsModule,
-    AuthModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'defaultSecret',
       signOptions: { expiresIn: '1h' },
