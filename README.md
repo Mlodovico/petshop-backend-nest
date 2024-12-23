@@ -1,3 +1,5 @@
+# Petshop Nest Backend
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -20,9 +22,13 @@
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
 
-## Description
+This repository is dedicated to a CRUD application that simulates a pet shop system. It allows users to manage animal data and interact through interfaces while utilizing a local server to store information.
 
-API RESTful maded with nestjs with Docker and MySQL
+## Table of Contents
+ - [Installation](#Installation)
+ - [Dependencies](#Dependencies)
+ - [Language](#Language)
+
 
 ## Installation
 
@@ -56,6 +62,17 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Depedencies
+
+ - **NPM**
+ - **NestJs**
+ - **Node**
+
+## Language
+
+- TypeScript
+- Nest Js
+
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
